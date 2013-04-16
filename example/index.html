@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>jquery.jscrollbar demo</title>
+<style>
+    body{
+		padding:0 0 10px 0;
+		margin:0;
+        font:14px/1.3em "Microsoft Yahei";
+	}
+    #test1{
+        width: 630px;
+        overflow: hidden;
+        height: 223px;
+        background: gray;
+        position: relative;
+        padding: 0;
+        border: 0;
+        margin-top: 0px;
+        margin-left: 10px;
+    }
+    #test2{
+        width: 630px;
+        overflow: hidden;
+        height: 333px;
+        background: gray;
+        position: absolute;
+        padding: 0;
+        border: 0;
+        right: 10px;
+        top:60px;
+    }
+    #test3{
+        width: 450px;
+        height: 600px;
+        position: relative;
+        top:10px;
+        left:10px;
+        border: 1px dashed orange;
+        border-radius: 5px;
+    }
+</style>
+</head>
+
+<body>
+
+<div style="color:#09F; border: 2px dashed orange; margin: 10px; padding: 10px; border-radius: 5px">
+    <strong>操作提示:</strong>
+    鼠标悬浮后按键盘上下左右键可滚动,外部滚动条支持鼠标点击；第一个图片鼠标滚动时左右滚动，第二个和第三个图片上下滚动(第二个没有垂直滚动条，故自动修正为水平方向滚动)
+</div>
+<div id="test1">
+    <img src="images/pic1.jpg" />
+</div>
+<div id="test2">
+    <img src="images/pic2.jpg" />
+</div>
+<div id="test3">
+    <img src="images/pic3.jpg" />
+</div>
+
+<script type="text/javascript" src="../min/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../min/jquery.mousewheel.min.js"></script>
+<script type="text/javascript" src="../min/jquery.jqdrag-1.0.min.js"></script>
+<script type="text/javascript" src="../min/jquery.jscrollbar-1.0.min.js"></script>
+<script>
+    $(function(){
+        $('#test1').jscrollbar({
+            width:12,
+            color:'orange',
+            opacity:0.7,
+            position:'inner',
+            mouseScrollDirection:'horizontal' // 'vertical' | 'horizontal'
+        });
+        $('#test2,#test3').jscrollbar({
+            width:10,
+            color:'red',
+            opacity:0.7
+        });
+        var jsb2 = $('#test2').jscrollbar('getObject');
+        setTimeout(function(){
+            $('#test2 img').css({width:'4000px'});
+            jsb2.updateUI()
+                .scrollTo('x',100)
+                .scrollBy('x',50);
+
+            $('#test1').jscrollbar('scrollBy','x',10)
+                       .jscrollbar('scrollTo','x',300)
+                       .animate({'opacity':0.8},1000);
+        },2000)
+    });
+</script>
+</body>
+</html>
