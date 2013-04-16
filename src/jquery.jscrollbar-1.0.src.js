@@ -446,7 +446,7 @@
                 });
                 this.barYmaxY = this.height - this.barY.height() -
                     ((this.opts.position === 'inner' || !this.opts.showXBar)?0:this.opts.width);
-                this.barX.jqdrag('setOption',{'maxY':this.barYmaxY})
+                this.barY.jqdrag('setOption',{'maxY':this.barYmaxY})
             }
             return this
         },
