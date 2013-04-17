@@ -1,4 +1,4 @@
-jquery.jscrollbar
+﻿jquery.jscrollbar
 ========================
 jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动条和垂直滚动条，支持鼠标键盘事件
 ------------------------
@@ -12,6 +12,7 @@ jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动�
 6. 支持键盘方向键控制
 7. 支持鼠标滚动(需要mousewheel插件)
 8. 支持滚动条显示位置设置(外部|悬浮)
+9. 支持手动更新界面
 
 ### 依赖的库
 1. jQuery (http://jquery.com/)
