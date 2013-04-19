@@ -18,7 +18,9 @@
      * @param {String} [options.showXBar=true] 是否显示水平滚动条
      * @param {String} [options.showYBar=true] 是否显示垂直滚动条
      * @param {String} [options.keyControl=true] 是否接受键盘按键(上下左右键)控制
+     * @param {String} [options.keyMoveAmount=30] 键盘控制每次移动的距离(单位:px)
      * @param {String} [options.mouseScrollDirection='vertical'] 鼠标滚动时控制的滚动方向(上下滚动或者左右滚动)
+     * @param {String} [options.mouseMoveAmount=30] 鼠标滚动时每次移动的距离(单位:px)
      * @returns {*}
      * @example
      * $('#ele').jscrollbar({
@@ -34,7 +36,9 @@
                 opacity: 0.6,
                 position: 'outer', // 滚动条的位置
                 keyControl:true,
-                mouseScrollDirection:'vertical'
+                mouseScrollDirection:'vertical',
+                keyMoveAmount:30,
+                mouseMoveAmount:30
             },
             OBJ_NAME = 'jscrollbar',
             obj = this.data(OBJ_NAME);
@@ -174,7 +178,7 @@
                 //console.log('Has mouseWheel plug');
                 var //pos = $this.getPosition((data<0 ? 1 : -1) * 10),
                     pos = {'horizontal':'x','vertical':'y'},
-                    amount = (data<0 ? 1 : -1) * 20,
+                    amount = (data<0 ? 1 : -1) * _this.opts.mouseMoveAmount,
                     direction = _this.opts.mouseScrollDirection,
                     showXBar = _this.opts.showXBar,
                     showYBar = _this.opts.showYBar;
@@ -344,16 +348,16 @@
                             var code = e.keyCode;
                             switch(code){
                                 case 37 :
-                                    _this.scrollBy('x',-20);
+                                    _this.scrollBy('x',-_this.opts.keyMoveAmount);
                                     break;
                                 case 38 :
-                                    _this.scrollBy('y',-20);
+                                    _this.scrollBy('y',-_this.opts.keyMoveAmount);
                                     break;
                                 case 39 :
-                                    _this.scrollBy('x',20);
+                                    _this.scrollBy('x',_this.opts.keyMoveAmount);
                                     break;
                                 case 40 :
-                                    _this.scrollBy('y',20);
+                                    _this.scrollBy('y',_this.opts.keyMoveAmount);
                                     break;
                             }
                             /(37|38|39|40)/.test(code) && e.preventDefault();
