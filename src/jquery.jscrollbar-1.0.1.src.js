@@ -84,7 +84,7 @@
             Math.max(10, this.height * this.height / this.scrollHeight));
 
         this.$sbContent = initContentArea();
-        this.contentScrollHeight = this.$sbContent[0].scrollHeight;
+        //this.contentScrollHeight = this.$sbContent[0].scrollHeight;
 
         this.barX = undefined;
         this.barY = undefined;
@@ -280,7 +280,7 @@
             var showYBar = _this.opts.showYBar;
             if((showXBar!==false) && (_this.scrollWidth > _this.width)){
                 addBar('x');
-                if((showYBar!==false) && (_this.contentScrollHeight > _this.$sbContent.height())){
+                if((showYBar!==false) && (_this.scrollHeight > _this.$sbContent.height())){
                     addBar('y');
                 }
             }
@@ -422,42 +422,46 @@
          * 更新UI
          */
         updateUI : function() {
+            //重新计算各参数
+
+            //宽度、高度
             this.width = this.obj.width();
             this.height = this.obj.height();
 
+            //设置内容区域的大小
             this.$sbContent.css({'width':this.barY?this.width-this.opts.width:this.width,
                 'height':this.barX?this.height-this.opts.width:this.height});
-
+            //滚动高度、滚动宽度
             this.scrollWidth = this.$sbContent[0].scrollWidth;
             this.scrollHeight = this.$sbContent[0].scrollHeight;
-
+            //滚动条“长度”
             this.barXWidth = Math.min(this.width - this.opts.width - 10,
                 Math.max(10, this.width * this.width / this.scrollWidth));
             this.barYHeight = Math.min(this.height - this.opts.width - 10,
                 Math.max(10, this.height * this.height / this.scrollHeight));
 
-            this.contentScrollHeight = this.$sbContent[0].scrollHeight;
+            //this.contentScrollHeight = this.$sbContent[0].scrollHeight;
 
             if(this.barX){
+                //计算水平滚动条最大滚动位置
                 this.barXmaxX = this.width - this.barXWidth -
                     ((this.opts.position==='inner' || !this.opts.showYBar) ? 0 : this.opts.width);
+                //设置滚动条的宽度
                 this.barX.css({
-                    'width':this.barXWidth,
-                    'left' :Math.max(0,Math.min(parseInt(this.barX.css('left')),this.barXmaxX))
+                    'width':this.barXWidth
                 });
-
+                //设置水平滚动条最大的拖动位置
                 this.barX.jqdrag('setOption',{'maxX':this.barXmaxX})
             }
             if(this.barY){
                 this.barYmaxY = this.height - this.barY.height() -
                     ((this.opts.position === 'inner' || !this.opts.showXBar)?0:this.opts.width);
                 this.barY.css({
-                    'height':this.barYHeight,
-                    'top': Math.max(0,Math.min(parseInt(this.barY.css('top')),this.barYmaxY))
+                    'height':this.barYHeight
                 });
-
                 this.barY.jqdrag('setOption',{'maxY':this.barYmaxY})
             }
+            //纠正滚动条的位置
             this.scrollTo('x',this.$sbContent.scrollLeft()).scrollTo('y',this.$sbContent.scrollTop());
             return this
         },
@@ -491,7 +495,7 @@
                  */
                 p.stop().animate({
                     'scrollTop': (p[0].scrollHeight - p.height()) *
-                        (!barYLoc?barYLocTop:parseInt(this.barY.css('top'))) /
+                        (!barYLoc?barYLocTop:parseFloat(this.barY.css('top'))) /
                         this.barYmaxY
                 },duration);
             }
@@ -502,8 +506,8 @@
                  * scrollLeft = (滚动宽度 - 实际显示宽度) * 滚动条Left / barXmaxX
                  */
                 p.stop().animate({
-                    'scrollLeft': (p[0].scrollWidth - p.width()) *
-                        (!barXLoc?barXLocLeft:parseInt(this.barX.css('left'))) /
+                    'scrollLeft': (this.scrollWidth - this.width) *
+                        (!barXLoc?barXLocLeft:parseFloat(this.barX.css('left'))) /
                         this.barXmaxX
                 },duration);
             }
