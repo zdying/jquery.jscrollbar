@@ -129,8 +129,8 @@
                 width = _this.opts.width;
             if(/x/i.test(type)){
                 _this.barXB = $('<div style="position:absolute;font-size:0;' +
-                    'background:'+color+';opacity:0.2;filter:alpha(opacity=20);width:'+
-                    _this.width+'px;height:'+
+                    'background:'+color+';opacity:0.2;filter:alpha(opacity=20);width:100%'+
+                    ';height:'+
                     width+'px;left:0;bottom:0;"></div>')
                     .appendTo(_this.obj)
                     .bind('mousedown',function(e){
@@ -147,8 +147,8 @@
             }
             if(/y/i.test(type)){
                 _this.barYB = $('<div style="font-size:0;position:absolute;' +
-                    'background:'+color+';opacity:0.2;filter:alpha(opacity=20);width:'+width+'px;height:'+
-                    _this.height+'px;right:0;top:0"></div>')
+                    'background:'+color+';opacity:0.2;filter:alpha(opacity=20);width:'+width+'px;height:100%'+
+                    ';right:0;top:0"></div>')
                     .appendTo(_this.obj)
                     .bind('mousedown',function(e){
                         var barYLocTop = Math.max(
@@ -422,6 +422,12 @@
          * 更新UI
          */
         updateUI : function() {
+            this.width = this.obj.width();
+            this.height = this.obj.height();
+
+            this.$sbContent.css({'width':this.barY?this.width-this.opts.width:this.width,
+                'height':this.barX?this.height-this.opts.width:this.height});
+
             this.scrollWidth = this.$sbContent[0].scrollWidth;
             this.scrollHeight = this.$sbContent[0].scrollHeight;
 
@@ -433,21 +439,26 @@
             this.contentScrollHeight = this.$sbContent[0].scrollHeight;
 
             if(this.barX){
-                this.barX.css({
-                    'width':this.barXWidth
-                });
                 this.barXmaxX = this.width - this.barXWidth -
                     ((this.opts.position==='inner' || !this.opts.showYBar) ? 0 : this.opts.width);
+                this.barX.css({
+                    'width':this.barXWidth,
+                    'left' :Math.max(0,Math.min(parseInt(this.barX.css('left')),this.barXmaxX))
+                });
+
                 this.barX.jqdrag('setOption',{'maxX':this.barXmaxX})
             }
             if(this.barY){
-                this.barY.css({
-                    'height':this.barYHeight
-                });
                 this.barYmaxY = this.height - this.barY.height() -
                     ((this.opts.position === 'inner' || !this.opts.showXBar)?0:this.opts.width);
+                this.barY.css({
+                    'height':this.barYHeight,
+                    'top': Math.max(0,Math.min(parseInt(this.barY.css('top')),this.barYmaxY))
+                });
+
                 this.barY.jqdrag('setOption',{'maxY':this.barYmaxY})
             }
+            this.scrollTo('x',this.$sbContent.scrollLeft()).scrollTo('y',this.$sbContent.scrollTop());
             return this
         },
 
