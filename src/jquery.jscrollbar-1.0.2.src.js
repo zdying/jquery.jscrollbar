@@ -14,7 +14,7 @@
      * @param {String} [options._color='black'] 滚动条的颜色
      * @param {Number} [options.width=12] 滚动条的宽度
      * @param {Number} [options.opacity=0.6] 滚动条的透明度(0~1)
-     * @param {Number} [options.borderRadius=5] 滚动条的透明度(0~1)
+     * @param {Number} [options.borderRadius=6] 滚动条的透明度(0~1)
      * @param {String} [options.position='outer'] 滚动条显示位置
      * @param {String} [options.showXBar=true] 是否显示水平滚动条
      * @param {String} [options.showYBar=true] 是否显示垂直滚动条
