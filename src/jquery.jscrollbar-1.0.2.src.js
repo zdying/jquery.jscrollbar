@@ -458,7 +458,7 @@
                 this.barX.jqdrag('setOption',{'maxX':this.barXmaxX})
             }
             if(this.barY){
-                this.barYmaxY = this.height - this.barY.height() -
+                this.barYmaxY = this.height - this.barYHeight -
                     ((this.opts.position === 'inner' || !this.opts.showXBar)?0:this.opts.width);
                 this.barY.css({
                     'height':this.barYHeight
