@@ -14,6 +14,7 @@
      * @param {String} [options._color='black'] 滚动条的颜色
      * @param {Number} [options.width=12] 滚动条的宽度
      * @param {Number} [options.opacity=0.6] 滚动条的透明度(0~1)
+     * @param {Number} [options.borderRadius=6]      滚动条圆角大小
      * @param {String} [options.position='outer'] 滚动条显示位置
      * @param {String} [options.showXBar=true] 是否显示水平滚动条
      * @param {String} [options.showYBar=true] 是否显示垂直滚动条
@@ -34,6 +35,7 @@
                 color : 'black', //滚动条颜色
                 width : 12,
                 opacity: 0.6,
+                borderRadius: 6,
                 position: 'outer', // 滚动条的位置
                 keyControl:true,
                 mouseScrollDirection:'vertical',
@@ -215,7 +217,7 @@
                 cssAttr = {},
                 opacity = _this.opts.opacity,
                 barStyle = '<div class="jq-scrollbar" style="font-size:0;border-radius:6px;background:'+_this.opts.color+
-                    ';position:absolute;z-index:1' +
+                    ';position:absolute;z-index:1;border-radius:' + opts.borderRadius+
                     ';opacity:'+opacity+';filter:alpha(opacity='+opacity*100+');';
             if(/x/i.test(type)){
                 _this.opts.showXBar = true;
