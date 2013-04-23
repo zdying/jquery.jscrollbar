@@ -14,7 +14,7 @@
      * @param {String} [options._color='black'] 滚动条的颜色
      * @param {Number} [options.width=12] 滚动条的宽度
      * @param {Number} [options.opacity=0.6] 滚动条的透明度(0~1)
-     * @param {Number} [options.borderRadius=6]      滚动条圆角大小
+     * @param {Number} [options.borderRadius=6] 滚动条圆角大小
      * @param {String} [options.position='outer'] 滚动条显示位置
      * @param {String} [options.showXBar=true] 是否显示水平滚动条
      * @param {String} [options.showYBar=true] 是否显示垂直滚动条
@@ -375,14 +375,30 @@
 
     JScrollBar.prototype = {
         /**
-         * 获取滚动条当前的位置，可以设置偏移量
-         * @param moveAmount
-         * @returns {{x: number, y: number}}
+         * 获取当前滚动信息
+         * @returns {{x: *, y: *}}
          */
-        getPosition : function(moveAmount){
-            var x = this.barX ? Math.max(0,Math.min(parseInt(this.barX.css('left')) + (moveAmount||0), this.barXmaxX)) : 0,
-                y = this.barY ? Math.max(0,Math.min(parseInt(this.barY.css('top')) + (moveAmount||0), this.barYmaxY)) : 0
-            return { x: x, y: y}
+        getScrollPos : function(){
+            var sb = this.$sbContent[0];
+            return {x:sb.scrollLeft,y:sb.scrollTop}
+        },
+        /**
+         * 根据滚动信息设置滚动条的位置
+         * @returns {*}
+         */
+        setBarLoc : function(){
+            var sp = this.getScrollPos(),
+                barX = this.barX,
+                barY = this.barY;
+
+            barX && barX.css({
+                    'left':this.barXmaxX * sp.x / (this.scrollWidth - this.width)
+                });
+
+            barY && barY.css({
+                    'top':this.barYmaxY * sp.y / (this.scrollHeight - this.height)
+                });
+            return this
         },
         /**
          * 内容区域滚动一定距离
@@ -390,25 +406,7 @@
          * @param {Number} amount 滚动数目(默认:10)
          */
         scrollBy : function(direction, amount){
-            //console.log(direction, amount,this);
-            !direction && (direction = 'y');
-            !amount && (amount = 10);
-            var p = this.$sbContent;
-            amount = Math.round(direction === 'x'? (this.width - this.barXWidth) * amount / (p[0].scrollWidth - p.width()) :
-                (this.height - this.barYHeight) * amount / (p[0].scrollHeight - p.height())
-            );
-            var pos = this.getPosition(amount);
-            if(this.barX && direction == 'x'){
-                this.barX.css({
-                    left: pos.x + 'px'
-                });
-                this._updateContentLoc({direction:'x'});
-            }else if(this.barY && direction == 'y'){
-                this.barY.css({
-                    top: pos.y + 'px'
-                });
-                this._updateContentLoc({direction:'y'});
-            }
+            this.scrollTo(direction,this.getScrollPos()[direction] + amount);
             return this
         },
 
@@ -420,7 +418,10 @@
          * @param {Number} target
          */
         scrollTo : function(direction,target){
-            this.scrollBy(direction,target - (direction=='x'?this.$sbContent.scrollLeft():this.$sbContent.scrollTop()));
+            var sp = this.getScrollPos(),
+                d = direction == 'x' ? 'scrollLeft' : 'scrollTop';
+            this.$sbContent[d](target);
+            this.setBarLoc();
             return this
         },
 
@@ -467,9 +468,8 @@
                 });
                 this.barY.jqdrag('setOption',{'maxY':this.barYmaxY})
             }
-            //纠正滚动条的位置
-            this.scrollTo('x',this.$sbContent.scrollLeft()).scrollTo('y',this.$sbContent.scrollTop());
-            return this
+            //设置滚动条的位置
+            return this.setBarLoc()
         },
 
         /**

@@ -80,13 +80,14 @@
         });
         var jsb2 = $('#test2').jscrollbar('getObject');
         setTimeout(function(){
-            $('#test2 img').css({width:'4000px'});
-            jsb2.updateUI()
+            //$('#test2 img').css({width:'4000px'});
+            jsb2//.updateUI()
                 .scrollTo('x',100)
                 .scrollBy('x',50);
 
             $('#test1').jscrollbar('scrollBy','x',10)
                        .jscrollbar('scrollTo','x',300)
+                       .jscrollbar('scrollTo','y',100)
                        .animate({'opacity':0.8},1000);
         },2000)
     });
