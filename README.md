@@ -20,7 +20,8 @@ jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动�
 3. jquery.mousewheel (插件已经包含在本项目中，文件：jquery.mousewheel.min.js)
 
 ### 使用步骤
-1. 在<head></head>或者<body></body>中引入下列文件:
+在<head></head>或者<body></body>中引入下列文件:
+
     <!--必须引入-->
     <script type="text/javascript" src="your-path/jquery-1.8.1.min.js"></script>
     <!--如果需要支持鼠标滚动则引入，否则可以不引用-->
@@ -29,10 +30,14 @@ jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动�
     <script type="text/javascript" src="your-path/require/jquery.jqdrag-1.0.min.js"></script>
     <!--必须引入-->
     <script type="text/javascript" src="your-path/min/jquery.jscrollbar-1.0.2.min.js"></script>
-2. 设置内容区域的大小:
+
+设置内容区域的大小:
+
     <!--设置区域大小，包括滚动条-->
     <div style="width:1300px;height:600px;">Some long text or other elements...</div>
-3. 调用插件：
+
+调用插件：
+
     $(function(){
         $('#test1,#test2').jscrollbar({
             //some options
