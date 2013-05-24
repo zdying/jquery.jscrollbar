@@ -418,10 +418,17 @@
          * @param {Number} target
          */
         scrollTo : function(direction,target){
-            var sp = this.getScrollPos(),
+            var //sp = this.getScrollPos(),
                 d = direction == 'x' ? 'scrollLeft' : 'scrollTop';
             this.$sbContent[d](target);
             this.setBarLoc();
+            var percent = direction == 'x' ? +(parseFloat(this.barX.css('left'),10) /this.barXmaxX * 100).toFixed(2)
+                :+(parseFloat(this.barY.css('top'),10) /this.barYmaxY * 100).toFixed(2);
+            this.obj.trigger('scroll',[{
+                direction:direction,percent:percent,
+                scrollWidth:this.scrollWidth, scrollHeight:this.scrollHeight
+            }]);
+
             return this
         },
 
@@ -491,7 +498,10 @@
                 barXLoc = typeof barXLocLeft === 'undefined',
                 barYLoc = typeof barYLocTop === 'undefined',
                 duration = opts.duration,
-                p = this.$sbContent;
+                p = this.$sbContent,
+                _this = this,
+                location = 0,
+                percent = 0;
             //上下滚动元素内容
 
             if(/y/.test(direction) && this.barY){
@@ -499,11 +509,18 @@
                  * scrollTop的计算方法：
                  * scrollTop = (滚动高度 - 实际显示高度) * 滚动条Top / barYmaxY
                  */
+                percent = (!barYLoc?barYLocTop:parseFloat(this.barY.css('top'))) /
+                    this.barYmaxY;
+                location = (p[0].scrollHeight - p.height()) * percent;
+
                 p.stop().animate({
-                    'scrollTop': (p[0].scrollHeight - p.height()) *
-                        (!barYLoc?barYLocTop:parseFloat(this.barY.css('top'))) /
-                        this.barYmaxY
-                },duration);
+                    'scrollTop': location
+                },duration,function(){
+                    _this.obj.trigger('scroll',[{
+                        direction:"y",percent:+(percent * 100).toFixed(2),
+                        scrollWidth:_this.scrollWidth, scrollHeight:_this.scrollHeight
+                    }]);
+                });
             }
             //左右滚动元素内容
             if(/x/.test(direction) && this.barX){
@@ -511,11 +528,17 @@
                  * scrollLeft的计算方法：
                  * scrollLeft = (滚动宽度 - 实际显示宽度) * 滚动条Left / barXmaxX
                  */
+                percent = (!barXLoc?barXLocLeft:parseFloat(this.barX.css('left'))) /
+                    this.barXmaxX;
+                location = (this.scrollWidth - this.width) * percent;
                 p.stop().animate({
-                    'scrollLeft': (this.scrollWidth - this.width) *
-                        (!barXLoc?barXLocLeft:parseFloat(this.barX.css('left'))) /
-                        this.barXmaxX
-                },duration);
+                    'scrollLeft': location
+                },duration,function(){
+                    _this.obj.trigger('scroll',[{
+                        direction:"x",precent:+(percent * 100).toFixed(2),
+                        scrollWidth:_this.scrollWidth, scrollHeight:_this.scrollHeight
+                    }]);
+                });
             }
         }
     }
