@@ -75,6 +75,9 @@
         $('#test1').on('scroll',function(e,obj){
             console.log(obj);
         })
+        $('#test1').on('finished',function(e,obj){
+            console.log('finished',obj);
+        })
         $('#test2,#test3').jscrollbar({
             width:10,
             color:'red',

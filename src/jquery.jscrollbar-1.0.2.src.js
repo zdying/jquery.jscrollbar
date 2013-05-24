@@ -262,6 +262,9 @@
                     minX : 0, //不能超出元素左边界
                     ondrag:function(){
                         _this._updateContentLoc({direction:'x'});
+                    },
+                    ondragend:function(){
+                        _this._triggerEvent('x','finished')
                     }
                 });
             }
@@ -272,6 +275,9 @@
                     minY:0, //不能超过元素的上边界
                     ondrag:function(){
                         _this._updateContentLoc({direction:'y'});
+                    },
+                    ondragend:function(){
+                        _this._triggerEvent('y','finished')
                     }
                 });
             }
@@ -422,14 +428,25 @@
                 d = direction == 'x' ? 'scrollLeft' : 'scrollTop';
             this.$sbContent[d](target);
             this.setBarLoc();
+            this._triggerEvent(direction,'scroll');
+            return this
+        },
+        /**
+         * 触发事件
+         * @param direction
+         * @param type
+         */
+        _triggerEvent : function(direction,type, obj){
+            if(obj){
+                this.obj.trigger(type,[obj]);
+                return
+            }
             var percent = direction == 'x' ? +(parseFloat(this.barX.css('left'),10) /this.barXmaxX * 100).toFixed(2)
                 :+(parseFloat(this.barY.css('top'),10) /this.barYmaxY * 100).toFixed(2);
-            this.obj.trigger('scroll',[{
+            this.obj.trigger(type,[{
                 direction:direction,percent:percent,
                 scrollWidth:this.scrollWidth, scrollHeight:this.scrollHeight
             }]);
-
-            return this
         },
 
         /**
@@ -516,10 +533,10 @@
                 p.stop().animate({
                     'scrollTop': location
                 },duration,function(){
-                    _this.obj.trigger('scroll',[{
+                    _this._triggerEvent('y','scroll',{
                         direction:"y",percent:+(percent * 100).toFixed(2),
                         scrollWidth:_this.scrollWidth, scrollHeight:_this.scrollHeight
-                    }]);
+                    });
                 });
             }
             //左右滚动元素内容
@@ -534,10 +551,10 @@
                 p.stop().animate({
                     'scrollLeft': location
                 },duration,function(){
-                    _this.obj.trigger('scroll',[{
+                    _this._triggerEvent('x','scroll',{
                         direction:"x",precent:+(percent * 100).toFixed(2),
                         scrollWidth:_this.scrollWidth, scrollHeight:_this.scrollHeight
-                    }]);
+                    });
                 });
             }
         }
