@@ -17,7 +17,6 @@
         position: relative;
         padding: 0;
         border: 0;
-        margin-top: 10px;
     }
     #test2{
         width: 630px;
@@ -26,8 +25,6 @@
         background: gray;
         padding: 0;
         border: 0;
-        margin-top: 10px;
-        margin-bottom: 10px;
     }
     #test3{
         width: 450px;
@@ -161,6 +158,11 @@
         $('#test1').on('finished',function(e,obj){
             console.log('finished',obj);
         })
+
+        setTimeout(function(){
+            $('#test2').find('img').height(689).end().data('jsb_data').update('relative')
+        },5000)
+
         $('#test22,#test2,#test3').jscrollbar({
             width:10,
             color:'red',
