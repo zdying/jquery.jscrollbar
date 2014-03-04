@@ -141,7 +141,6 @@
 </div>
 
 <script type="text/javascript" src="../require/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="../require/jquery.mousewheel.min.js"></script>
 <script type="text/javascript" src="../src/jquery.jscrollbar.js"></script>
 <script>
     $(function(){
@@ -163,11 +162,15 @@
             $('#test2').find('img').height(689).end().data('jsb_data').update('relative')
         },5000)
 
-        $('#test22,#test2,#test3').jscrollbar({
+        $('#test2,#test3').jscrollbar({
             width:10,
             color:'red',
             opacity:0.7,
             keyMoveAmount:50
+        });
+        $('#test22').jscrollbar({
+            width:10,
+            showXBar: false
         });
         var jsb2 = $('#test2').jscrollbar('getObject');
         setTimeout(function(){
