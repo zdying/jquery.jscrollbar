@@ -14,7 +14,7 @@
 
     function setProp(width, height, barWidth){
         this.bars = testXYShow.call(this, width, height, barWidth);
-        var delta = this.delta = this.opt.position === 'outer' ? (this.bars.length - 1) * this.opt.width : 0;
+        var delta = this.delta = /*this.opt.position === 'outer' ?*/ (this.bars.length - 1) * barWidth/* : 0*/;
         var thumbSize = this.thumbSize = {x:getThumbSize.call(this, 'x'),y:getThumbSize.call(this, 'y')};
 
         this.maxPos = {x: width - thumbSize.x - delta, y: height - thumbSize.y - delta};
@@ -24,25 +24,25 @@
     function addScrollbar($node, width, height, barWidth){
         setProp.call(this, width, height, barWidth);
         var type = this.bars.split(''),
-            //mapping = {'x':'height','y':'width'},
-            //mapping = MAPPING,
             mapObj,mapObjO,
             className,
-            size = 0, i= 0,
-            len = type.length,
-            thumbCon = null;
+            i= 0,
+            len = type.length;
         for(; i < len; i++){
             className = type[i];
-            size = this.thumbSize[className];
             mapObj = MAPPING[className];
             mapObjO = MAPPING['xy'.replace(className,'')].s;
             //加入滚动条背景容器
-            $('<div class="' + className + '"></div>').data('thumbType',className)
+            //$('<div class="' + className + '"></div>').data('thumbType',className)
+            $('<div></div>').addClass(className).data('thumbType',className)
                 //.css(mapping[className] ,barWidth)
                 .css(mapObjO ,barWidth)
                 //插入拖动条
-                .append($(THUMB_NODE)[mapObj.s](size).data('type', className))
+                .append($(THUMB_NODE)[mapObj.s](this.thumbSize[className]).data('type', className))
                 .insertAfter($node.css(mapObjO, '-='+ (this.opt.position === 'outer' ? barWidth : 0)))
+        }
+        if(this.opt.position === 'inner'){
+            this.$con.find('.x,.y').css('background','transparent');
         }
     }
 
@@ -70,11 +70,7 @@
     }
 
     function getThumbSize(type){
-       /* var prop = {'x' : 'Width', 'y' : 'Height'}[type],
-            size = this.$node[prop.toLowerCase()](),
-            delta = this.delta;*/
         var mapObj = MAPPING[type];
-        //return Math.max(10, Math.pow(this.$node[mapObj.s]() - this.delta, 2) / this.node[mapObj.ss]);
         return Math.max(10, Math.pow(this.$node[mapObj.s]() - this.delta, 2) / this.node[mapObj.ss]);
     }
 
@@ -136,8 +132,20 @@
 
         bindMouseWheelEvent.call(this);
         //bindClickEvent.call(this);
+        this.opt.position === 'inner' && bindMOEvent.call(this)
     }
 
+    function bindMOEvent(){
+        var $con = this.$con;
+        $con.hover(
+            function(eve){
+                $con.find('.x,.y').stop().animate({opacity:1},200)
+            },
+            function(eve){
+                $con.find('.x,.y').stop().animate({opacity:0},500)
+            }
+        ).mouseout();
+    }
     /*function bindClickEvent(){
         //scrollby height / 1.14
         var self = this;
@@ -251,23 +259,28 @@
     }
 
     JScrollBar.fn.scrollTo = function(direction, target){
+        console.log('scrollTo',direction,target);
         target = Math.max(Math.min(this.maxSPos[direction], target),0);
         this.node[MAPPING[direction].sp] = target;
+        this.$node.trigger('scroll',[direction,target]);
         setThumbPos.call(this, direction, target)
     }
 
     $.fn.jscrollbar = function(opt){
+        if(typeof opt === 'string'){
+            var obj = this.data(DATA_NAME);
+            obj.scrollTo([].slice.call(arguments,1))
+            return obj ? obj[opt].apply(obj, [].slice.call(arguments,1)) : this;
+        }
         opt = $.extend({},{
             //default params
             'width' : 12,
-            'position' : 'outer',
+            'position' : 'inner',
             'showXBar' : true,
             'showYBar' : true,
             'mouseevent' : true,
             'mouseSpeed' : 30
         },opt);
-
-        console.log(opt);
 
         return this.each(function(){
             var objData = $.data(this, DATA_NAME);

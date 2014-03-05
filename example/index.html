@@ -145,17 +145,14 @@
 <script>
     $(function(){
         $('#test1').jscrollbar({
-            width:12,
+            width:10,
             color:'orange',
             opacity:0.7,
             position:'inner',
             mouseScrollDirection:'horizontal' // 'vertical' | 'horizontal'
         });
-        $('#test1').on('scroll',function(e,obj){
-            console.log(obj);
-        })
-        $('#test1').on('finished',function(e,obj){
-            console.log('finished',obj);
+        $('#test1').on('scroll',function(e,direction,target){
+            console.log(direction, target);
         })
 
         setTimeout(function(){
@@ -170,20 +167,8 @@
         });
         $('#test22').jscrollbar({
             width:10,
-            showXBar: false
+            showXBar: true
         });
-        var jsb2 = $('#test2').jscrollbar('getObject');
-        setTimeout(function(){
-            //$('#test2 img').css({width:'4000px'});
-            jsb2//.updateUI()
-                .scrollTo('x',100)
-                .scrollBy('x',50);
-
-            $('#test1').jscrollbar('scrollBy','x',10)
-                       .jscrollbar('scrollTo','x',300)
-                       .jscrollbar('scrollTo','y',100)
-                       .animate({'opacity':0.8},1000);
-        },2000)
     });
 </script>
 </body>
