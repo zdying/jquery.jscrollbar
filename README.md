@@ -1,6 +1,6 @@
 ﻿jquery.jscrollbar 2.0.0
 ========================
-jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动条和垂直滚动条，支持鼠标键盘事件
+jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动条和垂直滚动条
 ------------------------
 
 ### 友情提示
