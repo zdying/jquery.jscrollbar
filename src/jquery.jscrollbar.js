@@ -14,7 +14,7 @@
 
     function setProp(width, height, barWidth){
         this.bars = testXYShow.call(this, width, height, barWidth);
-        var delta = this.delta = /*this.opt.position === 'outer' ?*/ (this.bars.length - 1) * barWidth/* : 0*/;
+        var delta = this.delta = (this.bars.length - 1) * barWidth;
         var thumbSize = this.thumbSize = {x:getThumbSize.call(this, 'x'),y:getThumbSize.call(this, 'y')};
 
         this.maxPos = {x: width - thumbSize.x - delta, y: height - thumbSize.y - delta};
@@ -87,7 +87,6 @@
             yflag = this.opt.showYBar && (node.scrollHeight > height),
             tmp = 0, type = '',
             bw = this.opt.position === 'outer' ? barWidth : 0;
-            //bw = barWidth;
         //todo 优化：如果设置了不显示某个滚动条，就不用检测
         if(xflag && yflag){
             //初始就有两个滚动条
@@ -123,40 +122,25 @@
             }
         })
 
-        //todo 优化event bind
         $(document).unbind('mouseup.jsb').bind('mouseup.jsb', function(){
             $(this).unbind('mousemove.jsb');
         });
 
         bindMouseWheelEvent.call(this);
-        //bindClickEvent.call(this);
         this.opt.position === 'inner' && bindMOEvent.call(this)
     }
 
     function bindMOEvent(){
         var $con = this.$con;
         $con.hover(
-            function(eve){
+            function(){
                 $con.find('.x,.y').stop().animate({opacity:1},200)
             },
-            function(eve){
+            function(){
                 $con.find('.x,.y').stop().animate({opacity:0},500)
             }
         ).mouseout();
     }
-
-    /*function bindClickEvent(){
-        //scrollby height / 1.14
-        var self = this;
-        this.$con.on('click', '.x,.y', function(eve){
-            var offset = 0, target = eve.target, thumbType = $.data(target,'thumbType'), mapObj = MAPPING[thumbType];
-            //点击thumb不触发
-            if(target === this){
-                offset = eve['page'+thumbType.toUpperCase()] - $(target).offset()[mapObj.p];
-                self.scrollTo(thumbType, offset / self.maxPos[thumbType] * self.maxSPos[thumbType]);
-            }
-        })
-    }*/
 
     function bindMouseWheelEvent(){
         var node = this.node,self = this,wheelHandle = null;
