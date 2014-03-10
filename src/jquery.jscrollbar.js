@@ -146,6 +146,7 @@
             }
         ).mouseout();
     }
+
     /*function bindClickEvent(){
         //scrollby height / 1.14
         var self = this;
@@ -170,9 +171,9 @@
             }
             if(node.addEventListener){
                 node.addEventListener('mousewheel', wheelHandle);
-                node.addEventListener('DOMMouseScroll', wheelHandle);
+                node.addEventListener('DOMMouseScroll', wheelHandle)
             }else{
-                node.onmousewheel = wheelHandle;
+                node.onmousewheel = wheelHandle
             }
         }
     }
@@ -185,12 +186,13 @@
                 Y : parseInt($(ele).css('top')) || 0
             };
         $(document).bind('mousemove.jsb', function(eve){
-            var type = $.data(ele, 'type').toUpperCase(),
-                mouseDelta = eve['page'+type] - start[type],
-                cssProp = type === 'X' ? 'left' : 'top',
-                cssValue = Math.min(Math.max(0, pos[type] + mouseDelta),self.maxPos[type.toLowerCase()]);
+            var type = $.data(ele, 'type'),
+                typeUp = type.toUpperCase(),
+                mouseDelta = eve['page'+typeUp] - start[typeUp],
+                cssProp = MAPPING[type].p,
+                cssValue = Math.min(Math.max(0, pos[typeUp] + mouseDelta),self.maxPos[type]);
             $(ele).css(cssProp, cssValue);
-            self.scroll(type.toLowerCase())
+            self.scroll(type)
         })
     }
 
@@ -208,10 +210,6 @@
 
 
     function JScrollBar($node, opt){
-        /**
-         * 添加滚动条的元素
-         * @type {jQuery}
-         */
         this.node = $node[0];
         this.$node = $node;
         this.width = $node.width();
@@ -219,26 +217,19 @@
         this.opt = opt;
         this.plugID = 'jsb_' + Math.floor(Math.random() * 9E3 + 1E3);
 
-        //self = this;
-        init.call(this, this.width, this.height, opt.width);
+        init.call(this, this.width, this.height, opt.width)
     }
 
 
     JScrollBar.fn = JScrollBar.prototype;
 
     JScrollBar.fn.update = function(type){
-        var $node = this.$node;
-        updateScrollbar.call(this,type, $node, this.width, this.height , this.opt.width);
-        this.scroll();
+        updateScrollbar.call(this,type, this.$node, this.width, this.height , this.opt.width);
+        this.scroll()
     }
 
     JScrollBar.fn.getThumbLocation = function(direction){
-        var i = 0,len = direction.length,$ele = null,pos = 0;
-        for(;i<len;i++){
-            $ele = $('#'+this.plugID).find('.' + direction.substr(i,1) + ' .thumb');
-            pos = $ele.css(direction === 'x' ? 'left' : 'top')
-        }
-        return parseFloat(pos) || 0
+        return parseFloat(this.$con.find('.' + direction + ' .thumb').css(MAPPING[direction].p)) || 0
     }
 
     JScrollBar.fn.getScrollPos = function(dir){
@@ -247,19 +238,15 @@
 
     JScrollBar.fn.scroll = function(direction){
         if(direction === undefined){ direction = 'x'; this.scroll('y')}
-        var pos = this.getThumbLocation(direction);
-        var mapObj = MAPPING[direction];
-        console.log(pos, this.maxPos[direction], this.maxSPos[direction]);
-        this.node[mapObj.sp] = pos / this.maxPos[direction] * this.maxSPos[direction];
+        this.node[MAPPING[direction].sp] =
+            this.getThumbLocation(direction) / this.maxPos[direction] * this.maxSPos[direction]
     }
 
     JScrollBar.fn.scrollBy = function(direction, amount){
-        var target = this.node[MAPPING[direction].sp];
-        this.scrollTo(direction, target + amount);
+        this.scrollTo(direction, this.node[MAPPING[direction].sp] + amount);
     }
 
     JScrollBar.fn.scrollTo = function(direction, target){
-        console.log('scrollTo',direction,target);
         target = Math.max(Math.min(this.maxSPos[direction], target),0);
         this.node[MAPPING[direction].sp] = target;
         this.$node.trigger('scroll',[direction,target]);

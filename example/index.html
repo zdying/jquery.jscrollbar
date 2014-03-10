@@ -21,7 +21,7 @@
     #test2{
         width: 630px;
         overflow: hidden;
-        height: 333px;
+        height: 323px;
         background: gray;
         padding: 0;
         border: 0;
@@ -140,7 +140,7 @@
     <img src="images/pic3.jpg" />
 </div>
 
-<script type="text/javascript" src="../require/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../min/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="../src/jquery.jscrollbar.js"></script>
 <script>
     $(function(){
@@ -148,7 +148,7 @@
             width:10,
             color:'orange',
             opacity:0.7,
-            position:'inner',
+            position:'outer',
             mouseScrollDirection:'horizontal' // 'vertical' | 'horizontal'
         });
         $('#test1').on('scroll',function(e,direction,target){
