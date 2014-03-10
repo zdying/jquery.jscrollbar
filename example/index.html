@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>jquery.jscrollbar demo v2.0.0</title>
+<link rel="stylesheet" href="../src/jquery.jscrollbar.css"/>
 <style>
     body{
 		padding:0 0 10px 0;
@@ -10,39 +11,37 @@
         font:16px/1.3em "Microsoft Yahei";
 	}
     img{display: block}
-    #test1{
-        width: 630px;
-        overflow: hidden;
-        height: 223px;
-        position: relative;
-        padding: 0;
-        border: 0;
+    #test1,#test2,#test3{
+        margin: 0 auto;
     }
+    #test1{
+        width: 400px;
+        height: 580px;
+        background: url("img0.jpg") no-repeat;
+        color: #4CA804;
+        line-height: 160%;
+        text-align: center;
+    }
+    #test1 dl{
+        background: rgba(0,0,0,.4);
+        margin: 0;
+    }
+    #test1 dl dd{
+        margin: 0;
+    }
+
     #test2{
         width: 630px;
         overflow: hidden;
         height: 443px;
         background: gray;
-        padding: 0;
-        border: 0;
     }
     #test3{
         width: 630px;
         overflow: hidden;
         height: 443px;
         background: gray;
-        padding: 0;
-        border: 0;
     }
-
-    .jscrollbar {position: relative}
-    .jscrollbar .x, .jscrollbar .y{position: absolute; background: rgba(0,0,0,.3);}
-    .jscrollbar .x{width: 100%; left: 0; bottom:0}
-    .jscrollbar .y{height: 100%; top: 0; right: 0}
-
-    .jscrollbar .x .thumb, .jscrollbar .y .thumb{position: absolute; background: rgba(0,0,0,.6); border-radius: 5px}
-    .jscrollbar .x .thumb{height: 100%;}
-    .jscrollbar .y .thumb{width: 100%;}
 </style>
 </head>
 
@@ -66,6 +65,7 @@
 <div id="test2">
     <img src="img1.jpg" />
 </div>
+<div>&nbsp;</div>
 <div id="test3">
     <img src="img2.jpg" />
 </div>
