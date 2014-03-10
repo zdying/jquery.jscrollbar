@@ -33,9 +33,7 @@
             mapObj = MAPPING[className];
             mapObjO = MAPPING['xy'.replace(className,'')].s;
             //加入滚动条背景容器
-            //$('<div class="' + className + '"></div>').data('thumbType',className)
             $('<div></div>').addClass(className).data('thumbType',className)
-                //.css(mapping[className] ,barWidth)
                 .css(mapObjO ,barWidth)
                 //插入拖动条
                 .append($(THUMB_NODE)[mapObj.s](this.thumbSize[className]).data('type', className))
