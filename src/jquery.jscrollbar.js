@@ -259,7 +259,7 @@
         }
         opt = $.extend({},{
             //default params
-            'width' : 12,
+            'width' : 8,
             'position' : 'inner',
             'showXBar' : true,
             'showYBar' : true,
