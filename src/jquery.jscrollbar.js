@@ -1,5 +1,7 @@
 ﻿/**
- * Version : 2.0.0
+ * jquery.jscrollbar
+ * v2.0.0
+ * http://imf2e.com
  */
 
 ;(function($){
@@ -197,6 +199,7 @@
                 this.scrollTo('x', this.maxSPos.x);
                 break;
             case 'top':
+            case 'left' :
             default :
                 this.scroll();
                 break;
@@ -216,6 +219,12 @@
     }
 
 
+    /**
+     * JScrollBar构造器
+     * @param $node
+     * @param opt
+     * @constructor
+     */
     function JScrollBar($node, opt){
         this.node = $node[0];
         this.$node = $node;
@@ -229,20 +238,38 @@
 
     JScrollBar.fn = JScrollBar.prototype;
 
+    /**
+     * 更新滚动条，改变内容或者大小之后调用
+     * @param {String} [type="relative"] 类型,决定滚动条更新后滚动条的新位置，可选值[relative|top|right|bottom|left]
+     */
     JScrollBar.fn.update = function(type){
         var $node = this.$node;
         updateScrollbar.call(this,type, $node, this.width = $node.width(), this.height = $node.height() , this.opt.width);
         this.scroll()
     }
 
-    JScrollBar.fn.getThumbLocation = function(direction){
-        return parseFloat(this.$node.find('.' + direction + ' .thumb').css(MAPPING[direction].p)) || 0
+    /**
+     * 获取滚动条的位置
+     * @param {String} dir 滚动条的类型(x => 获取水平滚动条的位置 y => 获取垂直滚动条的位置)
+     * @returns {Number|number}
+     */
+    JScrollBar.fn.getThumbLocation = function(dir){
+        return parseFloat(this.$node.find('.' + dir + ' .thumb').css(MAPPING[dir].p)) || 0
     }
 
+    /**
+     * 获取滚动的位置
+     * @param {String} dir 方向(x => 获取水平方向上滚动的距离 y => 获取垂直方向上滚动的距离)
+     * @returns {*}
+     */
     JScrollBar.fn.getScrollPos = function(dir){
         return this.$con[0][MAPPING[dir].sp]
     }
 
+    /**
+     * 根据滚动条的位置滚动内容，在改变滚动条的位置后调用
+     * @param {String} direction
+     */
     JScrollBar.fn.scroll = function(direction){
         if(direction === undefined){ direction = 'x'; this.scroll('y')}
         this.$con[0][MAPPING[direction].sp] =
@@ -250,18 +277,18 @@
     }
 
     /**
-     *
-     * @param direction
-     * @param amount
+     * 相对当前滚动指定的距离
+     * @param {String} dir  滚动方向
+     * @param {Number} amount 滚动的距离
      */
-    JScrollBar.fn.scrollBy = function(direction, amount){
-        this.scrollTo(direction, this.$con[0][MAPPING[direction].sp] + amount);
+    JScrollBar.fn.scrollBy = function(dir, amount){
+        this.scrollTo(dir, this.$con[0][MAPPING[dir].sp] + amount);
     }
 
     /**
      * 滚动到指定位置
-     * @param direction
-     * @param target
+     * @param {String} direction
+     * @param {Number} target
      */
     JScrollBar.fn.scrollTo = function(direction, target){
         target = Math.max(Math.min(this.maxSPos[direction], target),0);
