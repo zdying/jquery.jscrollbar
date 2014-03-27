@@ -190,7 +190,8 @@
                 cssProp = MAPPING[type].p,
                 cssValue = Math.min(Math.max(0, pos[typeUp] + mouseDelta),self.maxPos[type]);
             $(ele).css(cssProp, cssValue);
-            self.scroll(type)
+            self.scroll(type);
+            return false
         })
     }
 
