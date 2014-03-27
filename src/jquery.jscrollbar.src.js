@@ -1,10 +1,15 @@
-﻿/**
+/**
+ * @fileOverview
+ * @author daiying.zhang
+ */
+
+/**
  * jquery.jscrollbar
- * v2.0.0-dev
+ * v2.0.0
  * http://imf2e.com
  */
 
-;(function($){
+;(function($, fn, pluginName){
 
     var DATA_NAME = 'jsb_data',
         BAR_WRAPPER_NODE = $('<div class="jscrollbar" style="overflow: hidden"></div>'),
@@ -21,16 +26,18 @@
      * @param barWidth
      */
     function init(width, height, barWidth){
-        this.$node.css('overflow','hidden').addClass('jscrollbar')
-            .wrapInner(BAR_WRAPPER_NODE.attr('id', this.plugID).css({width:width, height:height}));
-        this.$con = $('#'+this.plugID);
-        addScrollbar.call(this, this.$node, width, height, barWidth);
-        initEvent.call(this);
+        var self = this;
+        self.$node.css('overflow','hidden').addClass('jscrollbar')
+            .wrapInner(BAR_WRAPPER_NODE.attr('id', self.plugID).css({width:width, height:height}));
+        self.$con = $('#'+self.plugID);
+        addScrollbar.call(self, self.$node, width, height, barWidth);
+        initEvent.call(self);
     }
 
     function addScrollbar($node, width, height, barWidth){
         setProp.call(this, width, height, barWidth);
-        var type = this.bars.split(''),
+        var self = this,
+            type = self.bars.split(''),
             mapObj,mapObjO,
             className,
             i= 0,
@@ -42,31 +49,22 @@
             $('<div></div>').addClass(className).data('thumbType',className)
                 .css(mapObjO ,barWidth)
                 //插入拖动条
-                .append($(THUMB_NODE)[mapObj.s](this.thumbSize[className]).data('type', className))
-                .insertAfter(this.$con.css(mapObjO, '-='+ (this.opt.position === 'outer' ? barWidth : 0)))
+                .append($(THUMB_NODE)[mapObj.s](self.thumbSize[className]).data('type', className))
+                .insertAfter(self.$con.css(mapObjO, '-='+ (self.opt.position === 'outer' ? barWidth : 0)))
         }
-        if(this.opt.position === 'inner'){
+        if(self.opt.position === 'inner'){
             $node.find('.x,.y').css('background','transparent');
         }
     }
 
     function setProp(width, height, barWidth){
-        this.bars = testXYShow.call(this, width, height, barWidth);
-        var delta = this.delta = (this.bars.length - 1) * barWidth;
-        var thumbSize = this.thumbSize = {x:getThumbSize.call(this, 'x'),y:getThumbSize.call(this, 'y')};
+        var self = this;
+        self.bars = testXYShow.call(self, width, height, barWidth);
+        var delta = self.delta = (self.bars.length - 1) * barWidth;
+        var thumbSize = self.thumbSize = {x:getThumbSize.call(self, 'x'),y:getThumbSize.call(self, 'y')};
 
-        this.maxPos = {x: width - thumbSize.x - delta, y: height - thumbSize.y - delta};
-        this.maxSPos = {x: this.scrollWidth - width + delta, y: this.scrollHeight - height + delta};
-
-        /*console.log('this.$con ==>  ', this.$con);
-
-        console.log('this.width  ==>  ', this.width);
-        console.log('this.height  ==>  ', this.height);
-        console.log('this.bars  ==>  ', this.bars);
-        console.log('this.thumbSize  ==>  ', this.thumbSize);
-        console.log('this.maxPos  ==>  ', this.maxPos);
-        console.log('this.maxSPos  ==>  ', this.maxSPos);
-        console.log('this.scrollHeight  ==>  ', this.scrollHeight);*/
+        self.maxPos = {x: width - thumbSize.x - delta, y: height - thumbSize.y - delta};
+        self.maxSPos = {x: self.scrollWidth - width + delta, y: self.scrollHeight - height + delta}
     }
 
     /**
@@ -78,14 +76,13 @@
      */
     function testXYShow(width, height, barWidth){
         var //node = this.node,
-            //$node = this.$node,
-            //self = this,
-            $cloneNode = this.$node.clone().appendTo('body').width(width).height(height).find('.jscrollbar'),
-            //$cloneNode = $cloneNode.find('.jscrollbar'),
-            xflag = this.opt.showXBar && (this.$con[0].scrollWidth > width),
-            yflag = this.opt.showYBar && (this.$con[0].scrollHeight > height),
+        //$node = this.$node,
+            self = this,
+            $cloneNode = self.$con.clone().appendTo('body').width(width).height(height),
+            xflag = self.opt.showXBar && (self.$con[0].scrollWidth > width),
+            yflag = self.opt.showYBar && (self.$con[0].scrollHeight > height),
             tmp = 0, type = '',
-            bw = this.opt.position === 'outer' ? barWidth : 0;
+            bw = self.opt.position === 'outer' ? barWidth : 0;
         //todo 优化：如果设置了不显示某个滚动条，就不用检测
         if(xflag && yflag){
             //初始就有两个滚动条
@@ -93,18 +90,17 @@
         }else if(xflag){
             //初始时只有水平滚动条
             tmp = $cloneNode.css({'height' : height - bw, 'zIndex' : -1})[0].scrollHeight;
-            type = 'x' + (this.opt.showXBar && tmp > height - bw ? 'y' : '');
+            type = 'x' + (self.opt.showXBar && tmp > height - bw ? 'y' : '');
 
         }else if(yflag){
             //初始时只有垂直滚动条
             tmp = $cloneNode.css({'width' : width - bw, 'zIndex' : -1})[0].scrollWidth;
-            type = (this.opt.showXBar && tmp > width - bw ? 'x' : '') + 'y'
+            type = (self.opt.showXBar && tmp > width - bw ? 'x' : '') + 'y'
         }
 
-        this.scrollWidth = $cloneNode[0].scrollWidth;
-        this.scrollHeight = $cloneNode[0].scrollHeight;
-
-        $cloneNode.parent().remove();
+        self.scrollWidth = $cloneNode[0].scrollWidth;
+        self.scrollHeight = $cloneNode[0].scrollHeight;
+        $cloneNode.remove();
         return  type;
     }
 
@@ -139,7 +135,7 @@
             $(this).unbind('mousemove.jsb');
         });
 
-        bindMouseWheelEvent.call(this);
+        bindMouseWheelEvent.call(self);
         this.opt.position === 'inner' && bindMOEvent.call(this)
     }
 
@@ -147,7 +143,7 @@
      * 绑定鼠标悬浮事件
      */
     function bindMOEvent(){
-        var $con = this.$node;
+        var $con = this.$con;
         $con.hover(
             function(){
                 $con.find('.x,.y').stop().animate({opacity:1},200)
@@ -159,7 +155,7 @@
     }
 
     function bindMouseWheelEvent(){
-        var node = this.node,self = this,wheelHandle = null;
+        var self = this,node = self.node,wheelHandle = null;
         if(this.opt.mouseEvent){
             wheelHandle = function(eve){
                 eve = eve || window.event;
@@ -195,23 +191,20 @@
     }
 
     function updateScrollbar(type, $node, width, height, barWidth){
-        //存储当前滚动的位置
-        var loc = {'x':this.getScrollPos('x'),'y':this.getScrollPos('y')};
-        //移除增加的滚动条
-        this.$node.find('.x,.y').remove();
-        //内容区域尺寸初始化
-        this.$con.css({width:width, height:height});
-        addScrollbar.call(this, $node,width,height,barWidth);
+        var self = this,loc = {'x':self.getScrollPos('x'),'y':self.getScrollPos('y')};
+        self.$node.find('.x,.y').remove();
+        self.$con.css({width:width, height:height});
+        addScrollbar.call(self, $node,width,height,barWidth);
         switch (type){
             case 'relative':
-                loc.x && this.scrollTo('x', loc.x);
-                loc.y && this.scrollTo('y', loc.y);
+                loc.x && self.scrollTo('x', loc.x);
+                loc.y && self.scrollTo('y', loc.y);
                 break;
             case 'bottom':
-                this.scrollTo('y', this.maxSPos.y);
+                this.scrollTo('y', self.maxSPos.y);
                 break;
             case 'right':
-                this.scrollTo('x', this.maxSPos.x);
+                this.scrollTo('x', self.maxSPos.x);
                 break;
             case 'top':
             case 'left' :
@@ -227,10 +220,11 @@
      * @param sp 当前滚动的位置
      */
     function setThumbPos(direction, sp){
-        var mapObj = MAPPING[direction],
-            sp1 = sp || this.$con[0][mapObj.sp],
-            pos = this.maxPos[direction] * sp1 / this.maxSPos[direction];
-        this.$node.find('.' + direction + ' .thumb').css(mapObj.p, pos);
+        var self = this,
+            mapObj = MAPPING[direction],
+            sp1 = sp || self.$con[0][mapObj.sp],
+            pos = self.maxPos[direction] * sp1 / self.maxSPos[direction];
+        self.$node.find('.' + direction + ' .thumb').css(mapObj.p, pos);
     }
 
 
@@ -241,14 +235,15 @@
      * @constructor
      */
     function JScrollBar($node, opt){
-        this.node = $node[0];
-        this.$node = $node;
-        this.width = $node.width();
-        this.height = $node.height();
-        this.opt = opt;
-        this.plugID = 'jsb_' + Math.floor(Math.random() * 9E3 + 1E3);
+        var self = this;
+        self.node = $node[0];
+        self.$node = $node;
+        self.width = $node.width();
+        self.height = $node.height();
+        self.opt = opt;
+        self.plugID = 'jsb_' + Math.floor(Math.random() * 9E3 + 1E3);
 
-        init.call(this, this.width, this.height, opt.width)
+        init.call(self, self.width, self.height, opt.width)
     }
 
     JScrollBar.fn = JScrollBar.prototype;
@@ -258,9 +253,9 @@
      * @param {String} [type="relative"] 类型,决定滚动条更新后滚动条的新位置，可选值[relative|top|right|bottom|left]
      */
     JScrollBar.fn.update = function(type){
-        var $node = this.$node;
-        updateScrollbar.call(this,type, $node, this.width = $node.width(), this.height = $node.height() , this.opt.width);
-        this.scroll()
+        var self = this,$node = self.$node;
+        updateScrollbar.call(self,type, $node, self.width = $node.width(), self.height = $node.height() , self.opt.width);
+        self.scroll()
     }
 
     /**
@@ -289,13 +284,6 @@
         if(direction === undefined){ direction = 'x'; this.scroll('y')}
         this.$con[0][MAPPING[direction].sp] =
             this.getThumbLocation(direction) / this.maxPos[direction] * this.maxSPos[direction]
-
-        /*console.log('============================');
-        console.log('dir:', direction);
-        console.log('prop:', MAPPING[direction].sp);
-        console.log('this.getThumbLocation(',direction,'):', this.getThumbLocation(direction));
-        console.log('this.maxPos[',direction,']:', this.maxPos[direction]);
-        console.log('this.maxSPos[',direction,']:', this.maxSPos[direction]);*/
     }
 
     /**
@@ -331,10 +319,10 @@
      * @param {Number} [opt.mouseSpeed=30]      鼠标滚动速度
      * @returns {jQuery}
      */
-    $.fn.jscrollbar = function(opt){
+    fn[pluginName] = function(opt){
         if(typeof opt === 'string'){
             var obj = this.data(DATA_NAME);
-            //obj.scrollTo([].slice.call(arguments,1));
+            obj.scrollTo([].slice.call(arguments,1));
             return obj ? obj[opt].apply(obj, [].slice.call(arguments,1)) : this;
         }
         opt = $.extend({},{
@@ -354,5 +342,5 @@
             }
         })
     }
-    $.fn.jscrollbar.version = '2.0.0-dev';
-})(jQuery);
+    fn[pluginName].version = '2.0.0';
+})(jQuery, jQuery.fn, 'jscrollbar');

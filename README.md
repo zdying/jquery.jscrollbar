@@ -1,8 +1,9 @@
-﻿# jquery.jscrollbar 2.0.0
+﻿# jquery.jscrollbar 2.0.0-dev
 
 jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动条和垂直滚动条
 
 ---------------
+
 
 ## 主要功能
 
@@ -29,17 +30,21 @@ jquery.jscrollbar 2.0.0已经进行重构，相对于1.0.x：
     
 ## 使用步骤
 
-1.在`head`或者`body`中引入下列文件:
+1.在`head`中引入样式表文件：
+
+    <link rel="stylesheet" href="../src/jquery.jscrollbar.css"/>
+
+2.在`body`中引入下列文件:
 
     <script type="text/javascript" src="your-path/jquery-1.8.1.min.js"></script>
     <script type="text/javascript" src="your-path/min/jquery.jscrollbar-1.0.2.min.js"></script>
     
-2.设置内容区域的大小:
+3.设置内容区域的大小:
 
     <!--设置区域大小，包括滚动条-->
     <div style="width:1300px;height:600px;">Some long text or other elements...</div>
     
-3.调用插件：
+4.调用插件：
 
     $(function(){
         $('#test1,#test2').jscrollbar({
@@ -61,6 +66,16 @@ jquery.jscrollbar 2.0.0已经进行重构，相对于1.0.x：
                            .jscrollbar('scrollTo','x',300);
         },2000)
     });
+
+## 重要提示
+
+当调用插件方法`jscrollbar`后，调用该方法的元素结构已经发生改变，如果要更改滚动区域的内容（比如插入新内容），
+需要首先获取内容显示区域所对应的元素(内容区域拥有`jscrollbar`的`class`属性)，然后进行操作，比如：
+
+    var $test1 = $('#test1').jscrollbar();
+    var $content = $test1.find('.jscrollbar');
+
+    $content.append('<h3>This text is append by JavaScript</h3>');
 
 ## E-Mail
 

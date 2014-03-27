@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>插件演示</title>
+    <link rel="stylesheet" href="./demopage.css"/>
+    <link rel="stylesheet" href="../src/jquery.jscrollbar.css"/>
+    <style>
+        body{
+            padding:0 0 10px 0;
+            margin:0;
+            font:16px/1.3em "Microsoft Yahei";
+        }
+        img{display: block}
+        #test1{
+            margin: 0 auto;
+            width: 400px;
+            height: 580px;
+            background: url("img0.jpg") no-repeat;
+            color: #4CA804;
+            line-height: 160%;
+            text-align: center;
+        }
+        #test1 dl{
+            background: rgba(0,0,0,.4);
+            margin: 0;
+        }
+        #test1 dl dd{
+            margin: 0;
+        }
+
+        #test2{
+            width: 630px;
+            overflow: hidden;
+            height: 443px;
+            background: gray;
+        }
+        #test3{
+            width: 630px;
+            overflow: hidden;
+            height: 443px;
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+<header class="mod-header">
+    <div class="body">
+        <h1><span class="plug">插件</span><span class="demo">演示</span></h1>
+        <h2>jquery.jscrollbar-2.0.0</h2>
+        <p>By <a href="http://imf2e.com">ImF2e</a></p>
+    </div>
+</header>
+<article class="mod-main">
+    <div class="body">
+        <div id="test1">
+            <dl>
+                周杰伦(Jay Chou)
+                <br><br>
+                <dt> 青花瓷</dt>
+                <dd><br>作词：方文山<br>作曲：周杰伦<br>编曲：钟兴民<br><br>素胚勾勒出青花笔锋浓转淡<br>瓶身描绘的牡丹一如你初妆<br>冉冉檀香透过窗心事我了然<br>宣纸上走笔至此搁一半<br><br>釉色渲染仕女图韵味被私藏<br>而你嫣然的一笑如含苞待放<br>你的美一缕飘散
+                    去到我去不了的地方<br><br>天青色等烟雨 而我在等你<br>炊烟袅袅升起 隔江千万里<br>在瓶底书汉隶仿前朝的飘逸<br>就当我为遇见你伏笔<br><br>天青色等烟雨 而我在等你<br>月色被打捞起
+                    晕开了结局<br>如传世的青花瓷自顾自美丽 你眼带笑意<br><br>色白花青的锦鲤跃然于碗底<br>临摹宋体落款时却惦记着你<br>你隐藏在窑烧里千年的秘密<br>极细腻犹如绣花针落地<br>
+                    <br>帘外芭蕉惹骤雨门环惹铜绿<br>而我路过那江南小镇惹了你<br>在泼墨山水画里 你从墨色深处被隐去<br><br>天青色等烟雨 而我在等你<br>炊烟袅袅升起
+                    隔江千万里<br>在瓶底书汉隶仿前朝的飘逸<br>就当我为遇见你伏笔<br><br>天青色等烟雨 而我在等你<br>月色被打捞起 晕开了结局<br>如传世的青花瓷自顾自美丽 你眼带笑意<br><br>天青色等烟雨
+                    而我在等你<br>炊烟袅袅升起 隔江千万里<br>在瓶底书汉隶仿前朝的飘逸<br>就当我为遇见你伏笔<br><br>天青色等烟雨 而我在等你<br>月色被打捞起 晕开了结局<br>如传世的青花瓷自顾自美丽 你眼带笑意<br>
+                    By 97532151
+                </dd>
+            </dl>
+        </div>
+        <div id="addContent" style="width: 200px; font-size: 16px;padding: 5px 10px; background: rgba(0,123,178,.9); border-radius: 5px; color: white; position: fixed; left: 50%; bottom: 0; margin-left: -110px;">Add Content to $('#test1')</div>
+    </div>
+</article>
+<footer class="mod-footer">
+    <div class="body"></div>
+</footer>
+
+<script type="text/javascript" src="../min/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jscrollbar.js"></script>
+<script>
+    $(function(){
+        $('#test1,#test2,#test3').jscrollbar();
+    });
+
+    $('#addContent').click(function(){
+         $('#test1').find('.jscrollbar').append('<div style="height:80px; background:#' +
+         Math.floor(Math.random()*255*255*255).toString(16) + '"></div>')
+         $('#test1').data('jsb_data').update('bottom');
+     });
+</script>
+</body>
+</html>

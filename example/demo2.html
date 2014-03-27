@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>插件演示</title>
+    <link rel="stylesheet" href="./demopage.css"/>
+    <link rel="stylesheet" href="../src/jquery.jscrollbar.css"/>
+    <style>
+        body{
+            padding:0 0 10px 0;
+            margin:0;
+            font:16px/1.3em "Microsoft Yahei";
+        }
+        img{display: block}
+        #test3{
+            margin: 0 auto;
+            width: 630px;
+            overflow: hidden;
+            height: 443px;
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+<header class="mod-header">
+    <div class="body">
+        <h1><span class="plug">插件</span><span class="demo">演示</span></h1>
+        <h2>jquery.jscrollbar-2.0.0</h2>
+        <p>By <a href="http://imf2e.com">ImF2e</a></p>
+    </div>
+</header>
+<article class="mod-main">
+    <div class="body">
+        <div id="test3">
+            <img src="img2.jpg" />
+        </div>
+    </div>
+</article>
+<footer class="mod-footer">
+    <div class="body"></div>
+</footer>
+
+<script type="text/javascript" src="../min/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jscrollbar.js"></script>
+<script>
+    $(function(){
+        $('#test3').jscrollbar();
+    });
+</script>
+</body>
+</html>
