@@ -371,5 +371,5 @@
      * @type {String}
      * @property
      */
-    $.fn.jscrollbar.version = '2.0.0-dev';
+    $.fn.jscrollbar.version = '2.0.0';
 })(jQuery);
