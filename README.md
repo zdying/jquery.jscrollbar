@@ -37,7 +37,7 @@ jquery.jscrollbar 2.0.0已经进行重构，相对于1.0.x：
 2.在`body`中引入下列文件:
 
     <script type="text/javascript" src="your-path/jquery-1.8.1.min.js"></script>
-    <script type="text/javascript" src="your-path/min/jquery.jscrollbar-1.0.2.min.js"></script>
+    <script type="text/javascript" src="your-path/min/jquery.jscrollbar-2.0.0.min.js"></script>
     
 3.设置内容区域的大小:
 
