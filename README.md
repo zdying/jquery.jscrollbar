@@ -1,4 +1,4 @@
-﻿# jquery.jscrollbar 2.0.0-dev
+﻿# jquery.jscrollbar 2.0.0
 
 jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动条和垂直滚动条
 
@@ -21,7 +21,7 @@ jquery.jscrollbar 2.0.0已经进行重构，相对于1.0.x：
 * 去除了对[`jquery.jqdrag`](https://github.com/daiying-zhang/jquery.jqdrag)插件以及`jquery.mousewheel`的依赖
 * 更轻量
     * `1.0.2`: 2.36KB gzipped (7.36KB uncompressed) + jqdrag + jquery.mousewheel
-    * `2.0.0`: 1.83KB gzipped (4.33KB uncompressed)
+    * `2.0.0`: 1.86KB gzipped (4.33KB uncompressed)
 * 更新内容时支持
     * 相对定位
     * 定位到顶部
