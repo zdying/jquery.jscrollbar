@@ -1,7 +1,9 @@
 ﻿/**
- * jquery.jscrollbar
- * v2.0.0-dev
- * http://imf2e.com
+ * @fileOverview jquery.jscrollbar
+ * @author daiying.zhang
+ * @mail   zdying@live.com/97532151@qq.com
+ * @site   http://imf2e.com
+ * @version 2.0.0
  */
 
 ;(function($){
@@ -19,6 +21,7 @@
      * @param width
      * @param height
      * @param barWidth
+     * @private
      */
     function init(width, height, barWidth){
         this.$node.css('overflow','hidden').addClass('jscrollbar')
@@ -75,17 +78,20 @@
      * @param height
      * @param barWidth
      * @returns {string}
+     * @private
      */
     function testXYShow(width, height, barWidth){
         var //node = this.node,
             //$node = this.$node,
             //self = this,
+            opt = this.opt,
+            con = this.$con[0],
             $cloneNode = this.$node.clone().appendTo('body').width(width).height(height).find('.jscrollbar'),
             //$cloneNode = $cloneNode.find('.jscrollbar'),
-            xflag = this.opt.showXBar && (this.$con[0].scrollWidth > width),
-            yflag = this.opt.showYBar && (this.$con[0].scrollHeight > height),
+            xflag = opt.showXBar && (con.scrollWidth > width),
+            yflag = opt.showYBar && (con.scrollHeight > height),
             tmp = 0, type = '',
-            bw = this.opt.position === 'outer' ? barWidth : 0;
+            bw = opt.position === 'outer' ? barWidth : 0;
         //todo 优化：如果设置了不显示某个滚动条，就不用检测
         if(xflag && yflag){
             //初始就有两个滚动条
@@ -93,12 +99,12 @@
         }else if(xflag){
             //初始时只有水平滚动条
             tmp = $cloneNode.css({'height' : height - bw, 'zIndex' : -1})[0].scrollHeight;
-            type = 'x' + (this.opt.showXBar && tmp > height - bw ? 'y' : '');
+            type = 'x' + (opt.showXBar && tmp > height - bw ? 'y' : '');
 
         }else if(yflag){
             //初始时只有垂直滚动条
             tmp = $cloneNode.css({'width' : width - bw, 'zIndex' : -1})[0].scrollWidth;
-            type = (this.opt.showXBar && tmp > width - bw ? 'x' : '') + 'y'
+            type = (opt.showXBar && tmp > width - bw ? 'x' : '') + 'y'
         }
 
         this.scrollWidth = $cloneNode[0].scrollWidth;
@@ -112,6 +118,7 @@
      * 获取滚动条的大小
      * @param type 滚动条的类型,取值为x|y
      * @returns {number}
+     * @private
      */
     function getThumbSize(type){
         var mapObj = MAPPING[type];
@@ -120,6 +127,7 @@
 
     /**
      * 初始化事件
+     * @private
      */
     function initEvent(){
         var self = this;
@@ -145,6 +153,7 @@
 
     /**
      * 绑定鼠标悬浮事件
+     * @private
      */
     function bindMOEvent(){
         var $con = this.$node;
@@ -190,7 +199,8 @@
                 cssProp = MAPPING[type].p,
                 cssValue = Math.min(Math.max(0, pos[typeUp] + mouseDelta),self.maxPos[type]);
             $(ele).css(cssProp, cssValue);
-            self.scroll(type)
+            self.scroll(type);
+            return false
         })
     }
 
@@ -225,6 +235,7 @@
      *
      * @param direction
      * @param sp 当前滚动的位置
+     * @private
      */
     function setThumbPos(direction, sp){
         var mapObj = MAPPING[direction],
@@ -261,7 +272,7 @@
         var $node = this.$node;
         updateScrollbar.call(this,type, $node, this.width = $node.width(), this.height = $node.height() , this.opt.width);
         this.scroll()
-    }
+    };
 
     /**
      * 获取滚动条的位置
@@ -270,7 +281,7 @@
      */
     JScrollBar.fn.getThumbLocation = function(dir){
         return parseFloat(this.$node.find('.' + dir + ' .thumb').css(MAPPING[dir].p)) || 0
-    }
+    };
 
     /**
      * 获取滚动的位置
@@ -279,7 +290,7 @@
      */
     JScrollBar.fn.getScrollPos = function(dir){
         return this.$con[0][MAPPING[dir].sp]
-    }
+    };
 
     /**
      * 根据滚动条的位置滚动内容，在改变滚动条的位置后调用
@@ -296,7 +307,7 @@
         console.log('this.getThumbLocation(',direction,'):', this.getThumbLocation(direction));
         console.log('this.maxPos[',direction,']:', this.maxPos[direction]);
         console.log('this.maxSPos[',direction,']:', this.maxSPos[direction]);*/
-    }
+    };
 
     /**
      * 相对当前滚动指定的距离
@@ -305,7 +316,7 @@
      */
     JScrollBar.fn.scrollBy = function(dir, amount){
         this.scrollTo(dir, this.$con[0][MAPPING[dir].sp] + amount);
-    }
+    };
 
     /**
      * 滚动到指定位置
@@ -318,10 +329,10 @@
         this.$con[0][MAPPING[direction].sp] = target;
         this.$node.trigger('scroll',[direction,target]);
         setThumbPos.call(this, direction, target)
-    }
+    };
 
     /**
-     * jQuery滚动条插件
+     * jQuery滚动条插件方法
      * @param {Object} [opt]                    配置参数
      * @param {Number} [opt.width=8]            滚动条宽度
      * @param {Number} [opt.position="inner"]   滚动条位置，可选值:inner|outer
@@ -330,6 +341,7 @@
      * @param {Number} [opt.mouseEvent=true]    是否添加鼠标滚动事件
      * @param {Number} [opt.mouseSpeed=30]      鼠标滚动速度
      * @returns {jQuery}
+     * @class $.fn.jscrollbar
      */
     $.fn.jscrollbar = function(opt){
         if(typeof opt === 'string'){
@@ -353,6 +365,11 @@
                 $.data(this, DATA_NAME, new JScrollBar($(this), opt))
             }
         })
-    }
-    $.fn.jscrollbar.version = '2.0.0-dev';
+    };
+    /**
+     * 版本号
+     * @type {String}
+     * @property
+     */
+    $.fn.jscrollbar.version = '2.0.0';
 })(jQuery);
