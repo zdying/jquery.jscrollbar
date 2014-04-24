@@ -139,7 +139,7 @@
                 //点击thumb不触发
                 if(target === this){
                     offset = eve['page'+thumbType.toUpperCase()] - $(target).offset()[mapObj.p];
-                    self.scrollTo(thumbType, offset / self.maxPos[thumbType] * self.maxSPos[thumbType]);
+                    self.scrollTo(thumbType, offset / self.maxPos[thumbType] * self.maxSPos[thumbType],500);
                 }
             })
 
@@ -235,15 +235,15 @@
      *
      * @param direction
      * @param sp 当前滚动的位置
+     * @param speed 滚动速度
      * @private
      */
     function setThumbPos(direction, sp, speed){
         var mapObj = MAPPING[direction],
             sp1 = sp || this.$con[0][mapObj.sp],
-            pos = this.maxPos[direction] * sp1 / this.maxSPos[direction],
             obj = {};
 
-        obj[mapObj.p] = pos;
+        obj[mapObj.p] = this.maxPos[direction] * sp1 / this.maxSPos[direction];
         this.$node.find('.' + direction + ' .thumb').animate(obj, speed);
     }
 
