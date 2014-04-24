@@ -139,7 +139,7 @@
                 //点击thumb不触发
                 if(target === this){
                     offset = eve['page'+thumbType.toUpperCase()] - $(target).offset()[mapObj.p];
-                    self.scrollTo(thumbType, offset / self.maxPos[thumbType] * self.maxSPos[thumbType],500);
+                    self.scrollTo(thumbType, offset / self.maxPos[thumbType] * self.maxSPos[thumbType],self.opt.speed);
                 }
             })
 
@@ -325,6 +325,7 @@
      * 滚动到指定位置
      * @param {String} direction
      * @param {Number} target
+     * @param {Number} speed
      */
     JScrollBar.fn.scrollTo = function(direction, target, speed){
         target = Math.max(Math.min(this.maxSPos[direction], target),0);
@@ -362,7 +363,8 @@
             'showXBar' : true,
             'showYBar' : true,
             'mouseEvent' : true,
-            'mouseSpeed' : 30
+            'mouseSpeed' : 30,
+            'speed' : 250
         },opt);
 
         return this.each(function(){
