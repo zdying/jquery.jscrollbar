@@ -76,16 +76,17 @@
 </div>
 
 <script type="text/javascript" src="../min/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="../min/jquery.jscrollbar-2.0.0.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jscrollbar.js"></script>
 <script>
     $(function(){
-        $('#test1,#test2,#test3').jscrollbar();
+        $('#test1,#test2,#test3').jscrollbar({position:'outer'});
     });
 
     $('#addContent').click(function(){
          $('#test1').find('.jscrollbar').append('<div style="height:80px; background:#' +
          Math.floor(Math.random()*255*255*255).toString(16) + '"></div>')
-         $('#test1').data('jsb_data').update('bottom');
+         //$('#test1').data('jsb_data').update('bottom');
+         $('#test1').jscrollbar('update','bottom');
      });
 </script>
 </body>

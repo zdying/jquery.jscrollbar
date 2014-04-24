@@ -237,11 +237,14 @@
      * @param sp 当前滚动的位置
      * @private
      */
-    function setThumbPos(direction, sp){
+    function setThumbPos(direction, sp, speed){
         var mapObj = MAPPING[direction],
             sp1 = sp || this.$con[0][mapObj.sp],
-            pos = this.maxPos[direction] * sp1 / this.maxSPos[direction];
-        this.$node.find('.' + direction + ' .thumb').css(mapObj.p, pos);
+            pos = this.maxPos[direction] * sp1 / this.maxSPos[direction],
+            obj = {};
+
+        obj[mapObj.p] = pos;
+        this.$node.find('.' + direction + ' .thumb').animate(obj, speed);
     }
 
 
@@ -323,12 +326,15 @@
      * @param {String} direction
      * @param {Number} target
      */
-    JScrollBar.fn.scrollTo = function(direction, target){
+    JScrollBar.fn.scrollTo = function(direction, target, speed){
         target = Math.max(Math.min(this.maxSPos[direction], target),0);
 
-        this.$con[0][MAPPING[direction].sp] = target;
+        //this.$con[0][MAPPING[direction].sp] = target;
+        var obj = {};
+        obj[MAPPING[direction].sp] = target;
+        this.$con.animate(obj,speed || 0 )
         this.$node.trigger('scroll',[direction,target]);
-        setThumbPos.call(this, direction, target)
+        setThumbPos.call(this, direction, target, speed || 0)
     };
 
     /**
