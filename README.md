@@ -4,6 +4,15 @@ jquery.jscrollbar 是一个基于jQuery的滚动条插件，支持水平滚动�
 
 ---------------
 
+## 在线演示
+
+* Demo : <http://www.imf2e.com/jquery.jscrollbar/example/demo.html>
+
+* Demo1 : <http://www.imf2e.com/jquery.jscrollbar/example/demo1.html>
+
+* Demo2 : <http://www.imf2e.com/jquery.jscrollbar/example/demo2.html>
+
+* Demo3 : <http://www.imf2e.com/jquery.jscrollbar/example/demo3.html>
 
 ## 主要功能
 
