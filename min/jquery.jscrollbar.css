@@ -3,10 +3,10 @@
  * @author daiying.zhang
  */
 .jscrollbar {position: relative}
-.jscrollbar .x, .jscrollbar .y{position: absolute; background: #4C0440;background: rgba(0,0,0,.3);}
+.jscrollbar .x, .jscrollbar .y{position: absolute; background: #484642;background: rgba(0,0,0,.3);}
 .jscrollbar .x{width: 100%; left: 0; bottom:0}
 .jscrollbar .y{height: 100%; top: 0; right: 0}
 
-.jscrollbar .x .thumb, .jscrollbar .y .thumb{position: absolute; background:#4C0440;background: rgba(0,0,0,.6); border-radius: 5px}
+.jscrollbar .x .thumb, .jscrollbar .y .thumb{position: absolute; background: #1E1E1C;background: rgba(0,0,0,.6); border-radius: 5px}
 .jscrollbar .x .thumb{height: 100%; bottom:0}
 .jscrollbar .y .thumb{width: 100%; left:0}
