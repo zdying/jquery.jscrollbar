@@ -1,0 +1,19 @@
+/**
+ * @fileOverview 
+ * @author daiying.zhang
+ */
+body,html{ padding: 0; margin: 0; font-size: 18px;}
+ul,ol,li{padding: 0; margin: 0; list-style: none}
+::selection{background: transparent}
+.mod-header{background: #ECECEC; position: fixed; width:100%; top:0; z-index: 10000}
+.mod-header h1{ padding: 14px 5px;margin:0;font-size: 24px; border-bottom: 1px solid #D9D9D9 }
+.mod-header h2{ width: 100%; text-align: center; color:#00A5F9; font-size:20px; margin-top:-36px; margin-right:5px;}
+.mod-header p{float:right; margin-top:-36px; margin-right:5px;}
+.mod-header p a{ text-decoration:none; color:#00A5F9;}
+.mod-header .plug{color: #00A5F9}
+.mod-header .demo{color: #FB742C}
+
+.mod-main{position: absolute; left: 0; right: 0; top: 50px; bottom: 0}
+.mod-main .body{height: 100%}
+
+.mod-footer{}
